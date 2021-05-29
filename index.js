@@ -3,6 +3,8 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token, activity, mongodb } = require('./config.json');
 const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
 
 const client = new Discord.Client({
 	partials: ["MESSAGE", "REACTION", "CHANNEL"]
@@ -38,6 +40,10 @@ mongoose.connect(mongodb, {
 client.once('ready', () => {
 	console.log(`Logged In As ${client.user.tag}!`);
 	client.user.setActivity(`${activity}`, { type: "WATCHING" });
+
+    app.get('/', (req, res) => {
+        res.send('bot is up and running!')
+    })
 });
 
 client.on("message", async message => {
